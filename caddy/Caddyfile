@@ -1,0 +1,40 @@
+{$DOMAIN} {
+	import snippets/Logging
+
+	# Traffic Analytics service
+	import snippets/TrafficAnalytics
+
+	# ActivityPub Service
+	import snippets/ActivityPub
+
+	# Default proxy everything else to Ghost
+	handle {
+		reverse_proxy ghost:2368
+	}
+
+	# Optional: Enable gzip compression
+	encode gzip
+
+	# Optional: Add security headers
+	import snippets/SecurityHeaders
+}
+
+# Separate admin domains
+{$ADMIN_DOMAIN} {
+	import snippets/Logging
+	import snippets/TrafficAnalytics
+	import snippets/ActivityPub
+
+	handle {
+		reverse_proxy ghost:2368
+	}
+
+	encode gzip
+	import snippets/SecurityHeaders
+}
+
+# Redirect www -> apex
+www.{$DOMAIN} {
+	import snippets/Logging
+	redir https://{$DOMAIN}{uri}
+}
