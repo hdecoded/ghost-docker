@@ -50,6 +50,7 @@ services:
       mail__options__secureConnection: "${MAIL_SECURE_CONNECTION}"
       mail__options__auth__user: "${MAIL_USER}"
       mail__options__auth__pass: "${MAIL_PASSWORD}"
+      security__staffDeviceVerification: "${TWO_FA}"
     volumes:
       - ${UPLOAD_LOCATION:-./data/ghost}:/var/lib/ghost/content
     depends_on:
